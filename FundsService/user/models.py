@@ -10,11 +10,40 @@ class CustomUser(models.Model):
     def __str__(self) -> str:
         return f'({self.user_id})  {self.username} - {self.funds} UAN'
 
-    def funds_accural(self, amount: float):
-        pass
 
-    def funds_debit(self, amount: float):
-        pass
+    def check_amount(self, amount: str):
+        try:
+            amount = float(amount)
+            if amount <= 0:
+                return False
+        except ValueError:
+            return False
+        return True
+
+    def funds_accural(self, amount: str):
+
+        if not self.check_amount(amount):
+            return False
+
+        amount = float(amount)
+        self.funds += amount
+        self.save()
+        return True
+
+    def funds_debit(self, amount: str):
+
+        if not self.check_amount(amount):
+            return False
+
+        amount = float(amount)
+
+        if self.funds - amount < 0:
+            return False
+
+        self.funds -= amount
+        self.save()
+        return True
+
 
     def funds_send(self, taker_user_id: int, amount: float):
         pass
