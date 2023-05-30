@@ -45,5 +45,3 @@ class CustomUser(models.Model):
         return True
 
 
-    def funds_send(self, taker_user_id: int, amount: float):
-        pass
