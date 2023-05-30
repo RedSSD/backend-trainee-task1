@@ -15,20 +15,24 @@ class CustomUserView(APIView):
 
 class FundsAccuralView(APIView):
 
-    def put(self, request, user_id, amount):
+    def put(self, request):
 
+        amount = request.query_params.get('amount')
+        user_id = int(request.query_params.get('id'))
         user = CustomUser.objects.get(user_id=user_id)
 
         if not user.funds_accural(amount):
             return HttpResponse('REQUEST ERROR')
 
-        return redirect(f'/user/{user_id}')
+        return redirect(f'/user/{1}')
 
 
 class FundsDebitView(APIView):
 
-    def put(self, request, user_id, amount):
+    def put(self, request):
 
+        amount = request.query_params.get('amount')
+        user_id = int(request.query_params.get('id'))
         user = CustomUser.objects.get(user_id=user_id)
 
         if not user.funds_debit(amount):

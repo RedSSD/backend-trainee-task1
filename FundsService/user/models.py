@@ -23,7 +23,7 @@ class CustomUser(models.Model):
     def funds_accural(self, amount: str):
 
         if not self.check_amount(amount):
-            return False
+           return False
 
         amount = float(amount)
         self.funds += amount
