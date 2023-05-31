@@ -4,7 +4,7 @@ from .views import CustomUserView, FundsAccuralView, FundsDebitView, FundsSendVi
 
 
 urlpatterns = [
-    path('<int:user_id>/', CustomUserView.as_view()),
+    path('', CustomUserView.as_view()),
     path('accural/', FundsAccuralView.as_view()),
     path('debit/', FundsDebitView.as_view()),
     path('send/', FundsSendView.as_view()),

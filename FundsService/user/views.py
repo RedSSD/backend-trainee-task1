@@ -6,10 +6,23 @@ from .models import CustomUser
 
 class CustomUserView(APIView):
 
-    def get(self, request, user_id):
+    def get(self, request):
 
+        user_id = request.query_params.get('id')
+        currency = request.query_params.get('currency')
         user = CustomUser.objects.get(user_id=user_id)
+
         serialized_user = CustomUserSerializer(user)
+
+        if currency is not None:
+            from .currency_convert import convert_funds
+            convert_result = convert_funds(currency, user.funds)
+            print(convert_result)
+            if convert_result is None:
+                return HttpResponse('REQUEST ERROR')
+
+            serialized_user.data['funds'] = convert_result
+
         return JsonResponse(serialized_user.data)
 
 
