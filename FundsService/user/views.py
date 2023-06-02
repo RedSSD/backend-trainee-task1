@@ -18,8 +18,8 @@ class CustomUserView(APIView):
             print(currency_result)
             if currency_result is None:
                 return HttpResponse('REQUEST ERROR')
+            user.funds = currency_result * user.funds
 
-        user.funds = currency_result*user.funds
         serialized_user = CustomUserSerializer(user)
         return JsonResponse(serialized_user.data)
 
