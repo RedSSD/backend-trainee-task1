@@ -12,17 +12,15 @@ class CustomUserView(APIView):
         currency = request.query_params.get('currency')
         user = CustomUser.objects.get(user_id=user_id)
 
-        serialized_user = CustomUserSerializer(user)
-
         if currency is not None:
-            from .currency_convert import convert_funds
-            convert_result = convert_funds(currency, user.funds)
-            print(convert_result)
-            if convert_result is None:
+            from .currency_convert import get_currency
+            currency_result = get_currency(currency, user.funds)
+            print(currency_result)
+            if currency_result is None:
                 return HttpResponse('REQUEST ERROR')
 
-            serialized_user.data['funds'] = convert_result
-
+        user.funds = currency_result*user.funds
+        serialized_user = CustomUserSerializer(user)
         return JsonResponse(serialized_user.data)
 
 

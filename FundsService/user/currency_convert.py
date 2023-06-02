@@ -2,8 +2,9 @@ from requests import post, get
 from os import getenv
 
 
-def convert_funds(currency: str, amount: float):
+def get_currency(currency: str, amount: float):
 
+    '''
     url = "https://community-neutrino-currency-conversion.p.rapidapi.com/convert/"
 
     payload = {
@@ -24,4 +25,19 @@ def convert_funds(currency: str, amount: float):
     if 'valid' in response and response['valid'] is True:
         return response['result-float']
     else:
+        return None'''
+
+    url = f'http://api.exchangeratesapi.io/v1/latest' \
+          f'?access_key=df504e7262e6ada77bb952c1b85ad1e2' \
+          f'&base=EUR' \
+          f'&symbols={currency}'
+
+    response = post(url).json()
+
+    print(response)
+
+    if 'success' in response and response['success'] is True:
+        return response['rates'][currency]
+    else:
         return None
+
